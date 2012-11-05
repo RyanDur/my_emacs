@@ -145,7 +145,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(menu-bar-mode  t)
+(add-to-list 'load-path "~/.emacs.d/elpa/undo-tree-0.5.5")
+(require 'undo-tree)
+(global-undo-tree-mode t)
+(global-set-key (kbd "C-x t") 'undo-tree-switch-branch)
+
+(menu-bar-mode -1)
 (tool-bar-mode -1)
 (ido-mode t)
 
