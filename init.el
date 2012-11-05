@@ -89,34 +89,17 @@
 ;; Title: Walk and ye shall reach.
 ;; From: http://itstickers.blogspot.com/2010/11/all-about-emacs.html
 
-(add-to-list 'load-path "~/.emacs.d/elpa/rinari-2.9")
-(add-to-list 'load-path "~/.emacs.d/elpa/inf-ruby-2.2.3")
-(add-to-list 'load-path "~/.emacs.d/elpa/ruby-compilation-0.9")
-(add-to-list 'load-path "~/.emacs.d/elpa/jump-2.2")
-(add-to-list 'load-path "~/.emacs.d/elpa/findr-0.7")
-(add-to-list 'load-path "~/.emacs.d/elpa/inflections-1.1")
-
-;; Rinari
-(require 'rinari)
-(add-hook 'ruby-mode-hook
-          (lambda ()
-            (defadvice ruby-mode-set-encoding
-              (around ruby-mode-set-encoding-disable activate) nil)))
-
 ;; Rsense
 (setq rsense-home "/usr/local/Cellar/rsense/0.3/libexec")
 (add-to-list 'load-path (concat rsense-home "/etc"))
-(require 'rsense)
- 
+
 ;; Rsense + Autocomplete
 (add-hook 'ruby-mode-hook
           (lambda ()
+            (require 'rsense)
             (add-to-list 'ac-sources 'ac-source-rsense-method)
             (add-to-list 'ac-sources 'ac-source-rsense-constant)))
 
-(add-to-list 'load-path "~/.emacs.d/elpa/ruby-electric-1.1")
-(require 'ruby-electric)
-(add-hook 'ruby-mode-hook 'ruby-electric-mode)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
