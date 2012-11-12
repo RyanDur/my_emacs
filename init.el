@@ -1,3 +1,9 @@
+;;(setenv "PATH" (concat (getenv "PATH") ":/usr/local/Cellar"))
+;;(setq exec-path (append exec-path '("/usr/local/Cellar")))
+
+(setq-default ispell-program-name "/usr/local/Cellar/aspell/0.60.6.1/bin/aspell")
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Author: 
 ;; Title: 
@@ -40,13 +46,15 @@
 ;; Author: Gopal Patel
 ;; Title: .emacs.d / init-ido.el
 ;; From: https://github.com/nixme/.emacs.d/blob/master/init-ido.el
-                                        ; display ido results vertically, rather than horizontally
-                                        ; from tipcharper, jpkotta: http://emacswiki.org/emacs/InteractivelyDoThings
- (setq ido-decorations
-       '("\n-> " "" "\n   " "\n   ..." "[" "]" " [No match]" " [Matched]" " [Not readable]" " [Too big]" " [Confirm]"))
- (defun ido-disable-line-trucation ()
-   (set (make-local-variable 'truncate-lines) nil))
- (add-hook 'ido-minibuffer-setup-hook 'ido-disable-line-trucation)
+; display ido results vertically, rather than horizontally
+; from tipcharper, jpkotta: http://emacswiki.org/emacs/InteractivelyDoThings
+(setq ido-decorations
+      (quote
+       ("\n-> " "" "\n   " "\n   ..." "[" "]" " [No match]" " [Matched]"
+        " [Not readable]" " [Too big]" " [Confirm]")))
+(defun ido-disable-line-trucation ()
+  (set (make-local-variable 'truncate-lines) nil))
+(add-hook 'ido-minibuffer-setup-hook 'ido-disable-line-trucation)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -127,6 +135,83 @@
 (global-set-key (kbd "C-x e") 'ecb-goto-window-edit-by-smart-selection)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Author: The Org Manual
+;; Title: 15.8 A cleaner outline view
+;; From: http://orgmode.org/manual/Clean-view.html
+
+(setq auto-indent-start-org-indent t)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Author: Masafumi Oyamada
+;; Title: mooz / js2-mode
+;; From: https://github.com/mooz/js2-mode/tree/emacs24
+(add-to-list 'load-path "~/.emacs.d/js2-mode")
+(require 'js2-mode)
+(autoload 'js2-mode "js2-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Author: Tim C Harper 
+;; Title: AutoPairs
+;; From: http://www.emacswiki.org/emacs/AutoPairs
+(add-to-list 'load-path "~/.emacs.d/elpa/autopair-0.3")
+(require 'autopair)
+(defvar autopair-modes '(r-mode ruby-mode))
+  (defun turn-on-autopair-mode () (autopair-mode 1))
+  (dolist (mode autopair-modes) (add-hook (intern (concat (symbol-name mode) "-hook")) 'turn-on-autopair-mode))
+
+(add-to-list 'load-path "~/.emacs.d/elpa/paredit-22")
+(require 'paredit)
+(defadvice paredit-mode (around disable-autopairs-around (arg))
+    "Disable autopairs mode if paredit-mode is turned on"
+    ad-do-it
+    (if (null ad-return-value)
+        (autopair-mode 1)
+      (autopair-mode 0)
+      ))
+(ad-activate 'paredit-mode)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+(dolist (command '(yank yank-pop))
+  (eval `(defadvice ,command (after indent-region activate)
+           (and (not current-prefix-arg)
+                (member major-mode '(emacs-lisp-mode
+                                     clojure-mode scheme-mode
+                                     haskell-mode ruby-mode
+                                     rspec-mode python-mode
+                                     c-mode c++-mode
+                                     objc-mode latex-mode
+                                     js2-mode plain-tex-mode))
+                (let ((mark-even-if-inactive transient-mark-mode))
+                  (indent-region (region-beginning) (region-end) nil))))))
+
+
+(add-to-list 'load-path "~/.emacs.d/smarttabs")
+(require 'smart-tabs-mode)
+
+(autoload 'smart-tabs-mode-enable "smart-tabs-mode")
+(autoload 'smart-tabs-advice "smart-tabs-mode")
+;(add-hook 'js2-mode-hook 'smart-tabs-mode-enable)
+;(smart-tabs-advice js2-indent-line js2-basic-offset)
+;(add-hook 'js2-mode-hook 'smart-tabs-mode-enable)
+;(smart-tabs-advice js2-indent-line js2-basic-offset)
+
+
+(define-key global-map (kbd "RET") 'newline-and-indent)
+
+
+(ad-activate 'paredit-mode)
+
+(setq org-return-follows-link t)
+
+(global-visual-line-mode)
 
 (add-to-list 'load-path "~/.emacs.d/elpa/undo-tree-0.5.5")
 (require 'undo-tree)
