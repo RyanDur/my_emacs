@@ -198,9 +198,9 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Author:
-;; Title:
-;; From:
+;; Author: Yves Senn
+;; Title: Emacs Tidbits for Ruby Developers
+;; From: http://blog.senny.ch/blog/2012/10/06/emacs-tidbits-for-ruby-developers/
 
 (add-to-list 'load-path "~/.emacs.d/elpa/rvm-1.2")
 (require 'rvm)
