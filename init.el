@@ -5,24 +5,24 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Author: 
-;; Title: 
-;; From: 
- (push "/usr/local/bin" exec-path)
- (setq make-backup-files nil)
- (setq auto-save-default nil)
- (setq-default tab-width 2)
- (setq-default indent-tabs-mode nil)
- (setq inhibit-startup-message t)
- (fset 'yes-or-no-p 'y-or-n-p)
- (delete-selection-mode t)
- (scroll-bar-mode -1)
- (tool-bar-mode -1)
- (blink-cursor-mode t)
- (show-paren-mode t)
- (column-number-mode t)
- (set-fringe-style -1)
- (tooltip-mode -1) 
+;; Author:
+;; Title:
+;; From:
+(push "/usr/local/bin" exec-path)
+(setq make-backup-files nil)
+(setq auto-save-default nil)
+(setq-default tab-width 2)
+(setq-default indent-tabs-mode nil)
+(setq inhibit-startup-message t)
+(fset 'yes-or-no-p 'y-or-n-p)
+(delete-selection-mode t)
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+(blink-cursor-mode t)
+(show-paren-mode t)
+(column-number-mode t)
+(set-fringe-style -1)
+(tooltip-mode -1)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -30,7 +30,7 @@
 ;; Author: djcb
 ;; Title: init.el
 ;; From: http://www.djcbsoftware.nl/dot-emacs.html
- (setq initial-scratch-message ";; scratch buffer created -- happy hacking\n")
+(setq initial-scratch-message ";; scratch buffer created -- happy hacking\n")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -38,7 +38,7 @@
 ;; Author: huaiyuan
 ;; Title: How to set the font size in Emacs?
 ;; From: http://stackoverflow.com/questions/294664/how-to-set-the-font-size-in-emacs
- (set-face-attribute 'default nil :height 160)
+(set-face-attribute 'default nil :height 160)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -46,8 +46,8 @@
 ;; Author: Gopal Patel
 ;; Title: .emacs.d / init-ido.el
 ;; From: https://github.com/nixme/.emacs.d/blob/master/init-ido.el
-; display ido results vertically, rather than horizontally
-; from tipcharper, jpkotta: http://emacswiki.org/emacs/InteractivelyDoThings
+                                        ; display ido results vertically, rather than horizontally
+                                        ; from tipcharper, jpkotta: http://emacswiki.org/emacs/InteractivelyDoThings
 (setq ido-decorations
       (quote
        ("\n-> " "" "\n   " "\n   ..." "[" "]" " [No match]" " [Matched]"
@@ -62,10 +62,10 @@
 ;; Author: Eric M. Ludlam
 ;; Title: Setting up CEDET
 ;; From: http://cedet.sourceforge.net/setup.shtml
- (require 'cedet)
- (require 'srecode)
- (global-ede-mode 1)
- (srecode-minor-mode 1)
+(require 'cedet)
+(require 'srecode)
+(global-ede-mode 1)
+(srecode-minor-mode 1)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -74,10 +74,10 @@
 ;; Title: ModeCompile
 ;; From: http://www.emacswiki.org/emacs/ModeCompile
 (autoload 'mode-compile "mode-compile"
-      "Command to compile current buffer file based on the major mode" t)
+  "Command to compile current buffer file based on the major mode" t)
 (global-set-key "\C-cc" 'mode-compile)
 (autoload 'mode-compile-kill "mode-compile"
-      "Command to kill a compilation launched by `mode-compile'" t)
+  "Command to kill a compilation launched by `mode-compile'" t)
 (global-set-key "\C-ck" 'mode-compile-kill)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -86,9 +86,9 @@
 ;; Author: djcb
 ;; Title: package management revisited
 ;; From: http://emacs-fu.blogspot.com/2011/11/package-management-revisited.html
-(setq package-archives '(("ELPA" . "http://tromey.com/elpa/") 
-                          ("gnu" . "http://elpa.gnu.org/packages/")
-                          ("marmalade" . "http://marmalade-repo.org/packages/")))
+(setq package-archives '(("ELPA" . "http://tromey.com/elpa/")
+                         ("gnu" . "http://elpa.gnu.org/packages/")
+                         ("marmalade" . "http://marmalade-repo.org/packages/")))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -157,24 +157,24 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Author: Tim C Harper 
+;; Author: Tim C Harper
 ;; Title: AutoPairs
 ;; From: http://www.emacswiki.org/emacs/AutoPairs
 (add-to-list 'load-path "~/.emacs.d/elpa/autopair-0.3")
 (require 'autopair)
 (defvar autopair-modes '(r-mode ruby-mode))
-  (defun turn-on-autopair-mode () (autopair-mode 1))
-  (dolist (mode autopair-modes) (add-hook (intern (concat (symbol-name mode) "-hook")) 'turn-on-autopair-mode))
+(defun turn-on-autopair-mode () (autopair-mode 1))
+(dolist (mode autopair-modes) (add-hook (intern (concat (symbol-name mode) "-hook")) 'turn-on-autopair-mode))
 
 (add-to-list 'load-path "~/.emacs.d/elpa/paredit-22")
 (require 'paredit)
 (defadvice paredit-mode (around disable-autopairs-around (arg))
-    "Disable autopairs mode if paredit-mode is turned on"
-    ad-do-it
-    (if (null ad-return-value)
-        (autopair-mode 1)
-      (autopair-mode 0)
-      ))
+  "Disable autopairs mode if paredit-mode is turned on"
+  ad-do-it
+  (if (null ad-return-value)
+      (autopair-mode 1)
+    (autopair-mode 0)
+    ))
 (ad-activate 'paredit-mode)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -196,22 +196,118 @@
 (add-to-list 'load-path "~/.emacs.d/smarttabs")
 (require 'smart-tabs-mode)
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Author:
+;; Title:
+;; From:
+
+(add-to-list 'load-path "~/.emacs.d/elpa/rvm-1.2")
+(require 'rvm)
+(add-hook 'ruby-mode-hook
+          (lambda () (rvm-activate-corresponding-ruby)))
+
+(add-to-list 'load-path "~/.emacs.d/elpa/yari-0.5")
+(require 'yari)
+
+(add-to-list 'load-path "~/.emacs.d/cucumber.el")
+(require 'feature-mode)
+
+(add-to-list 'load-path "~/.emacs.d/elpa/rspec-mode-1.3")
+(require 'rspec-mode)
+
+(defun senny-ruby-open-spec-other-buffer ()
+  (interactive)
+  (when (featurep 'rspec-mode)
+    (let ((source-buffer (current-buffer))
+          (other-buffer (progn
+                          (rspec-toggle-spec-and-target)
+                          (current-buffer))))
+      (switch-to-buffer source-buffer)
+      (pop-to-buffer other-buffer))))
+
+(eval-after-load 'ruby-mode
+  '(progn
+     (define-key ruby-mode-map (kbd "C-c , ,") 'senny-ruby-open-spec-other-buffer)))
+
+(defun senny-ruby-interpolate ()
+  "In a double quoted string, interpolate."
+  (interactive)
+  (insert "#")
+  (when (and
+         (looking-back "\".*")
+         (looking-at ".*\""))
+    (insert "{}")
+    (backward-char 1)))
+
+(eval-after-load 'ruby-mode
+  '(progn
+     (define-key ruby-mode-map (kbd "#") 'senny-ruby-interpolate)))
+
+                                        ;(eval-after-load 'ruby-mode
+                                        ;  '(progn
+                                        ;     (add-to-list 'ruby-font-lock-syntactic-keywords
+                                        ;                  '("\\(\\(\\)\\(\\)\\|Given\\|When\\|Then\\)\\s *\\(/\\)[^/\n\\\\]*\\(\\\\.[^/\n\\\\]*\\)*\\(/\\)"
+                                        ;                    (4 (7 . ?/))
+                                        ;                    (6 (7 . ?/))))))
+
+(eval-after-load 'ruby-mode
+  '(progn
+     ;; Libraries
+     (require 'flymake)
+
+     ;; Invoke ruby with '-c' to get syntax checking
+     (defun flymake-ruby-init ()
+       (let* ((temp-file (flymake-init-create-temp-buffer-copy
+                          'flymake-create-temp-inplace))
+              (local-file (file-relative-name
+                           temp-file
+                           (file-name-directory buffer-file-name))))
+         (list "ruby" (list "-c" local-file))))
+
+     (push '(".+\\.rb$" flymake-ruby-init) flymake-allowed-file-name-masks)
+     (push '("Rakefile$" flymake-ruby-init) flymake-allowed-file-name-masks)
+
+     (push '("^\\(.*\\):\\([0-9]+\\): \\(.*\\)$" 1 2 nil 3)
+           flymake-err-line-patterns)
+
+     (add-hook 'ruby-mode-hook 'cabbage-flymake-init)
+
+     (add-hook 'ruby-mode-hook
+               (lambda ()
+                 (when (and buffer-file-name
+                            (file-writable-p
+                             (file-name-directory buffer-file-name))
+                            (file-writable-p buffer-file-name)
+                            (if (fboundp 'tramp-list-remote-buffers)
+                                (not (subsetp
+                                      (list (current-buffer))
+                                      (tramp-list-remote-buffers)))
+                              t))
+                   (local-set-key (kbd "C-c d")
+                                  'flymake-display-err-menu-for-current-line)
+                   (flymake-mode t))))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
 (autoload 'smart-tabs-mode-enable "smart-tabs-mode")
 (autoload 'smart-tabs-advice "smart-tabs-mode")
-;(add-hook 'js2-mode-hook 'smart-tabs-mode-enable)
-;(smart-tabs-advice js2-indent-line js2-basic-offset)
-;(add-hook 'js2-mode-hook 'smart-tabs-mode-enable)
-;(smart-tabs-advice js2-indent-line js2-basic-offset)
 
+(add-to-list 'load-path "~/.emacs.d/elpa/zencoding-mode-0.5.1")
+(require 'zencoding-mode)
+(add-hook 'html-mode-hook (lambda () (zencoding-mode 1)))
+(add-hook 'sgml-mode-hook (lambda () (zencoding-mode 1)))
 
 (define-key global-map (kbd "RET") 'newline-and-indent)
 
+(global-set-key (kbd "C-c n") 'esk-cleanup-buffer)
 
 (ad-activate 'paredit-mode)
 
 (setq org-return-follows-link t)
 
-(global-visual-line-mode)
+(setq-default indicate-empty-lines t)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 (add-to-list 'load-path "~/.emacs.d/elpa/undo-tree-0.5.5")
 (require 'undo-tree)
@@ -250,4 +346,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(hl-line ((t nil))))
