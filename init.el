@@ -1,5 +1,20 @@
-;;(setenv "PATH" (concat (getenv "PATH") ":/usr/local/Cellar"))
-;;(setq exec-path (append exec-path '("/usr/local/Cellar")))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Author: Dimitri Fontaine
+;; Title: el-get
+;; From: https://github.com/dimitri/el-get
+(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
+(setq el-get-user-package-directory "~/.emacs.d/el-get-init-files/")
+(unless (require 'el-get nil 'noerror)
+  (with-current-buffer
+      (url-retrieve-synchronously
+       "https://raw.github.com/dimitri/el-get/master/el-get-install.el")
+    (goto-char (point-max))
+    (eval-print-last-sexp)))
+
+(el-get 'sync)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(package-initialize)
 
 (setq-default ispell-program-name "/usr/local/Cellar/aspell/0.60.6.1/bin/aspell")
 
@@ -70,19 +85,6 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Author: emacs wiki
-;; Title: ModeCompile
-;; From: http://www.emacswiki.org/emacs/ModeCompile
-(autoload 'mode-compile "mode-compile"
-  "Command to compile current buffer file based on the major mode" t)
-(global-set-key "\C-cc" 'mode-compile)
-(autoload 'mode-compile-kill "mode-compile"
-  "Command to kill a compilation launched by `mode-compile'" t)
-(global-set-key "\C-ck" 'mode-compile-kill)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Author: djcb
 ;; Title: package management revisited
 ;; From: http://emacs-fu.blogspot.com/2011/11/package-management-revisited.html
@@ -129,10 +131,10 @@
                                  ("\\(^\\(\\.\\|#\\)\\|\\(~$\\|\\.\\(elc\\|beam\\|o\\|class\\|a\\|so\\|cache\\)$\\)\\)")
                                  ("^\\.\\(emacs\\|gnus\\)$")))
       ecb-source-path '(("~/.emacs.d" "emacs.d")))
-(global-set-key (kbd "C-x a") 'ecb-activate)
-(global-set-key (kbd "C-x d") 'ecb-deactivate)
-(global-set-key (kbd "C-x w") 'ecb-goto-window-directories)
-(global-set-key (kbd "C-x e") 'ecb-goto-window-edit-by-smart-selection)
+(global-set-key (kbd "C-c C-a") 'ecb-activate)
+(global-set-key (kbd "C-c C-d") 'ecb-deactivate)
+(global-set-key (kbd "C-c C-w") 'ecb-goto-window-directories)
+(global-set-key (kbd "C-c C-e") 'ecb-goto-window-edit-by-smart-selection)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -188,7 +190,8 @@
                                      rspec-mode python-mode
                                      c-mode c++-mode
                                      objc-mode latex-mode
-                                     js2-mode plain-tex-mode))
+                                     js2-mode plain-tex-mode
+                                     yaml-mode))
                 (let ((mark-even-if-inactive transient-mark-mode))
                   (indent-region (region-beginning) (region-end) nil))))))
 
@@ -289,6 +292,37 @@
                    (flymake-mode t))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
+(autoload 'scss-mode "scss-mode")
+(add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
+
+
+(add-to-list 'load-path "~/.emacs.d/rhtml")
+(require 'rinari)
+(require 'rhtml-mode)
+(add-hook 'rhtml-mode-hook
+          (lambda () (rinari-launch)))
+
+
+
+(defface erb-face
+  `((t (:background "grey18")))
+  "Default inherited face for ERB tag body"
+  :group 'rhtml-faces)
+
+(defface erb-delim-face
+  `((t (:background "grey15")))
+  "Default inherited face for ERB tag delimeters"
+  :group 'rhtml-faces)
+
+
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+
+(add-to-list 'auto-mode-alist '("Guardfile$". ruby-mode))
+
+(add-to-list 'load-path "~/.emacs.d/elpa/dired+-21.2")
+(require 'dired+)
 
 (autoload 'smart-tabs-mode-enable "smart-tabs-mode")
 (autoload 'smart-tabs-advice "smart-tabs-mode")
