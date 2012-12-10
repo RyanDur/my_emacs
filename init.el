@@ -1,24 +1,8 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Author: Dimitri Fontaine
-;; Title: el-get
-;; From: https://github.com/dimitri/el-get
-(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
-(setq el-get-user-package-directory "~/.emacs.d/el-get-init-files/")
-(unless (require 'el-get nil 'noerror)
-  (with-current-buffer
-      (url-retrieve-synchronously
-       "https://raw.github.com/dimitri/el-get/master/el-get-install.el")
-    (goto-char (point-max))
-    (eval-print-last-sexp)))
-
-(el-get 'sync)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(package-initialize)
-
 (setq-default ispell-program-name "/usr/local/Cellar/aspell/0.60.6.1/bin/aspell")
-
-
+(add-to-list 'load-path "~/.emacs.d/inf-ruby")
+(add-to-list 'load-path "~/.emacs.d/jump.el")
+(add-to-list 'load-path "~/.emacs.d/magit")
+(require 'magit)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Author:
 ;; Title:
@@ -39,6 +23,80 @@
 (set-fringe-style -1)
 (tooltip-mode -1)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Author: Plillup Toland
+;; Title: dotemacs /init.el
+;; From: htps://github.com/toland/blob/master/init.el
+(setq stack-trace-on-error t)
+(add-to-list 'load-path "~/.emacs.d/ecb")
+(require 'ecb)
+(setq ecb-options-version "2.40"
+      ecb-tip-of-the-day nil
+      ecb-layout-name "left15"
+      ecb-show-sources-in-directories-buffer '("left7" "left13" "left14" "left15" "leftright3")
+      ecb-fix-window-size 'auto
+      ecb-windows-width 25
+      ecb-primary-secondary-mouse-buttons 'mouse-1--mouse-2
+      ecb-source-file-regexps '((".*"
+                                 ("\\(^\\(\\.\\|#\\)\\|\\(~$\\|\\.\\(elc\\|beam\\|o\\|class\\|a\\|so\\|cache\\)$\\)\\)")
+                                 ("^\\.\\(emacs\\|gnus\\)$")))
+      ecb-source-path '(("~/.emacs.d" "emacs.d")))
+(global-set-key (kbd "C-c C-a") 'ecb-activate)
+(global-set-key (kbd "C-c C-d") 'ecb-deactivate)
+(global-set-key (kbd "C-c C-w") 'ecb-goto-window-directories)
+(global-set-key (kbd "C-c C-e") 'ecb-goto-window-edit-by-smart-selection)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Author: Masafumi Oyamada
+;; Title: mooz / js2-mode
+;; From: https://github.com/mooz/js2-mode/tree/emacs24
+(add-to-list 'load-path "~/.emacs.d/js2-mode")
+(require 'js2-mode)
+(autoload 'js2-mode "js2-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Author: emacs wiki
+;; Title: ModeCompile
+;; From: http://www.emacswiki.org/emacs/ModeCompile
+(add-to-list 'load-path "~/.emacs.d/mode-compile")
+(autoload 'mode-compile "mode-compile"
+  "Command to compile current buffer file based on the major mode" t)
+(global-set-key "\C-cc" 'mode-compile)
+(autoload 'mode-compile-kill "mode-compile"
+  "Command to kill a compilation launched by `mode-compile'" t)
+(global-set-key "\C-ck" 'mode-compile-kill)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Author: Tim C Harper
+;; Title: AutoPairs
+;; From: http://www.emacswiki.org/emacs/AutoPairs
+(add-to-list 'load-path "~/.emacs.d/autopair")
+(require 'autopair)
+(defvar autopair-modes '(r-mode ruby-mode))
+(defun turn-on-autopair-mode () (autopair-mode 1))
+(dolist (mode autopair-modes) (add-hook (intern (concat (symbol-name mode) "-hook")) 'turn-on-autopair-mode))
+
+(add-to-list 'load-path "~/.emacs.d/paredit")
+(require 'paredit)
+(defadvice paredit-mode (around disable-autopairs-around (arg))
+  "Disable autopairs mode if paredit-mode is turned on"
+  ad-do-it
+  (if (null ad-return-value)
+      (autopair-mode 1)
+    (autopair-mode 0)
+    ))
+(ad-activate 'paredit-mode)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -63,6 +121,7 @@
 ;; From: https://github.com/nixme/.emacs.d/blob/master/init-ido.el
                                         ; display ido results vertically, rather than horizontally
                                         ; from tipcharper, jpkotta: http://emacswiki.org/emacs/InteractivelyDoThings
+(ido-mode t)
 (setq ido-decorations
       (quote
        ("\n-> " "" "\n   " "\n   ..." "[" "]" " [No match]" " [Matched]"
@@ -95,50 +154,6 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Author: Pavel Nikitin
-;; Title: Walk and ye shall reach.
-;; From: http://itstickers.blogspot.com/2010/11/all-about-emacs.html
-
-;; Rsense
-(setq rsense-home "/usr/local/Cellar/rsense/0.3/libexec")
-(add-to-list 'load-path (concat rsense-home "/etc"))
-
-;; Rsense + Autocomplete
-(add-hook 'ruby-mode-hook
-          (lambda ()
-            (require 'rsense)
-            (add-to-list 'ac-sources 'ac-source-rsense-method)
-            (add-to-list 'ac-sources 'ac-source-rsense-constant)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Author: Plillup Toland
-;; Title: dotemacs /init.el
-;; From: htps://github.com/toland/blob/master/init.el
-
-(add-to-list 'load-path "~/.emacs.d/ecb")
-(require 'ecb)
-(setq ecb-options-version "2.40"
-      ecb-tip-of-the-day nil
-      ecb-layout-name "left15"
-      ecb-show-sources-in-directories-buffer '("left7" "left13" "left14" "left15" "leftright3")
-      ecb-fix-window-size 'auto
-      ecb-windows-width 25
-      ecb-primary-secondary-mouse-buttons 'mouse-1--mouse-2
-      ecb-source-file-regexps '((".*"
-                                 ("\\(^\\(\\.\\|#\\)\\|\\(~$\\|\\.\\(elc\\|beam\\|o\\|class\\|a\\|so\\|cache\\)$\\)\\)")
-                                 ("^\\.\\(emacs\\|gnus\\)$")))
-      ecb-source-path '(("~/.emacs.d" "emacs.d")))
-(global-set-key (kbd "C-c C-a") 'ecb-activate)
-(global-set-key (kbd "C-c C-d") 'ecb-deactivate)
-(global-set-key (kbd "C-c C-w") 'ecb-goto-window-directories)
-(global-set-key (kbd "C-c C-e") 'ecb-goto-window-edit-by-smart-selection)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Author: The Org Manual
 ;; Title: 15.8 A cleaner outline view
 ;; From: http://orgmode.org/manual/Clean-view.html
@@ -147,39 +162,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Author: Masafumi Oyamada
-;; Title: mooz / js2-mode
-;; From: https://github.com/mooz/js2-mode/tree/emacs24
-(add-to-list 'load-path "~/.emacs.d/js2-mode")
-(require 'js2-mode)
-(autoload 'js2-mode "js2-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Author: Tim C Harper
-;; Title: AutoPairs
-;; From: http://www.emacswiki.org/emacs/AutoPairs
-(add-to-list 'load-path "~/.emacs.d/elpa/autopair-0.3")
-(require 'autopair)
-(defvar autopair-modes '(r-mode ruby-mode))
-(defun turn-on-autopair-mode () (autopair-mode 1))
-(dolist (mode autopair-modes) (add-hook (intern (concat (symbol-name mode) "-hook")) 'turn-on-autopair-mode))
-
-(add-to-list 'load-path "~/.emacs.d/elpa/paredit-22")
-(require 'paredit)
-(defadvice paredit-mode (around disable-autopairs-around (arg))
-  "Disable autopairs mode if paredit-mode is turned on"
-  ad-do-it
-  (if (null ad-return-value)
-      (autopair-mode 1)
-    (autopair-mode 0)
-    ))
-(ad-activate 'paredit-mode)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+(add-to-list 'load-path "~/.emacs.d/popup-el")
+(add-to-list 'load-path "~/.emacs.d/auto-complete")
+(require 'auto-complete-config)
+(ac-config-default)
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
 
 (dolist (command '(yank yank-pop))
   (eval `(defadvice ,command (after indent-region activate)
@@ -196,114 +183,14 @@
                   (indent-region (region-beginning) (region-end) nil))))))
 
 
-(add-to-list 'load-path "~/.emacs.d/smarttabs")
-(require 'smart-tabs-mode)
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Author: Yves Senn
-;; Title: Emacs Tidbits for Ruby Developers
-;; From: http://blog.senny.ch/blog/2012/10/06/emacs-tidbits-for-ruby-developers/
-
-(add-to-list 'load-path "~/.emacs.d/elpa/rvm-1.2")
-(require 'rvm)
-(add-hook 'ruby-mode-hook
-          (lambda () (rvm-activate-corresponding-ruby)))
-
-(add-to-list 'load-path "~/.emacs.d/elpa/yari-0.5")
-(require 'yari)
-
-(add-to-list 'load-path "~/.emacs.d/cucumber.el")
-(require 'feature-mode)
-
-(add-to-list 'load-path "~/.emacs.d/elpa/rspec-mode-1.3")
-(require 'rspec-mode)
-
-(defun senny-ruby-open-spec-other-buffer ()
-  (interactive)
-  (when (featurep 'rspec-mode)
-    (let ((source-buffer (current-buffer))
-          (other-buffer (progn
-                          (rspec-toggle-spec-and-target)
-                          (current-buffer))))
-      (switch-to-buffer source-buffer)
-      (pop-to-buffer other-buffer))))
-
-(eval-after-load 'ruby-mode
-  '(progn
-     (define-key ruby-mode-map (kbd "C-c , ,") 'senny-ruby-open-spec-other-buffer)))
-
-(defun senny-ruby-interpolate ()
-  "In a double quoted string, interpolate."
-  (interactive)
-  (insert "#")
-  (when (and
-         (looking-back "\".*")
-         (looking-at ".*\""))
-    (insert "{}")
-    (backward-char 1)))
-
-(eval-after-load 'ruby-mode
-  '(progn
-     (define-key ruby-mode-map (kbd "#") 'senny-ruby-interpolate)))
-
-                                        ;(eval-after-load 'ruby-mode
-                                        ;  '(progn
-                                        ;     (add-to-list 'ruby-font-lock-syntactic-keywords
-                                        ;                  '("\\(\\(\\)\\(\\)\\|Given\\|When\\|Then\\)\\s *\\(/\\)[^/\n\\\\]*\\(\\\\.[^/\n\\\\]*\\)*\\(/\\)"
-                                        ;                    (4 (7 . ?/))
-                                        ;                    (6 (7 . ?/))))))
-
-(eval-after-load 'ruby-mode
-  '(progn
-     ;; Libraries
-     (require 'flymake)
-
-     ;; Invoke ruby with '-c' to get syntax checking
-     (defun flymake-ruby-init ()
-       (let* ((temp-file (flymake-init-create-temp-buffer-copy
-                          'flymake-create-temp-inplace))
-              (local-file (file-relative-name
-                           temp-file
-                           (file-name-directory buffer-file-name))))
-         (list "ruby" (list "-c" local-file))))
-
-     (push '(".+\\.rb$" flymake-ruby-init) flymake-allowed-file-name-masks)
-     (push '("Rakefile$" flymake-ruby-init) flymake-allowed-file-name-masks)
-
-     (push '("^\\(.*\\):\\([0-9]+\\): \\(.*\\)$" 1 2 nil 3)
-           flymake-err-line-patterns)
-
-     (add-hook 'ruby-mode-hook 'cabbage-flymake-init)
-
-     (add-hook 'ruby-mode-hook
-               (lambda ()
-                 (when (and buffer-file-name
-                            (file-writable-p
-                             (file-name-directory buffer-file-name))
-                            (file-writable-p buffer-file-name)
-                            (if (fboundp 'tramp-list-remote-buffers)
-                                (not (subsetp
-                                      (list (current-buffer))
-                                      (tramp-list-remote-buffers)))
-                              t))
-                   (local-set-key (kbd "C-c d")
-                                  'flymake-display-err-menu-for-current-line)
-                   (flymake-mode t))))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-(autoload 'scss-mode "scss-mode")
 (add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
 
-
-(add-to-list 'load-path "~/.emacs.d/rhtml")
+(add-to-list 'load-path "~/.emacs.d/rinari")
 (require 'rinari)
+(add-to-list 'load-path "~/.emacs.d/rhtml")
 (require 'rhtml-mode)
 (add-hook 'rhtml-mode-hook
           (lambda () (rinari-launch)))
-
-
 
 (defface erb-face
   `((t (:background "grey18")))
@@ -315,19 +202,19 @@
   "Default inherited face for ERB tag delimeters"
   :group 'rhtml-faces)
 
-
+(add-to-list 'load-path "~/.emacs.d/yaml-mode")
 (require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 
 (add-to-list 'auto-mode-alist '("Guardfile$". ruby-mode))
 
-(add-to-list 'load-path "~/.emacs.d/elpa/dired+-21.2")
+(add-to-list 'load-path "~/.emacs.d/dired-plus")
 (require 'dired+)
 
 (autoload 'smart-tabs-mode-enable "smart-tabs-mode")
 (autoload 'smart-tabs-advice "smart-tabs-mode")
 
-(add-to-list 'load-path "~/.emacs.d/elpa/zencoding-mode-0.5.1")
+(add-to-list 'load-path "~/.emacs.d/zencoding")
 (require 'zencoding-mode)
 (add-hook 'html-mode-hook (lambda () (zencoding-mode 1)))
 (add-hook 'sgml-mode-hook (lambda () (zencoding-mode 1)))
@@ -336,34 +223,20 @@
 
 (global-set-key (kbd "C-c n") 'esk-cleanup-buffer)
 
-(ad-activate 'paredit-mode)
-
 (setq org-return-follows-link t)
 
 (setq-default indicate-empty-lines t)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-(add-to-list 'load-path "~/.emacs.d/elpa/undo-tree-0.5.5")
+(add-to-list 'load-path "~/.emacs.d/undo-tree")
 (require 'undo-tree)
 (global-undo-tree-mode t)
-(global-set-key (kbd "C-x t") 'undo-tree-switch-branch)
 
 (menu-bar-mode -1)
 (tool-bar-mode -1)
-(ido-mode t)
-
-(add-to-list 'load-path "~/.emacs.d/elpa/sr-speedbar-0.1.8")
-(require 'sr-speedbar)
 
 (global-linum-mode t)                    ;; show line numbers
 (size-indication-mode t)                 ;; show file size (emacs 22+)
-
-(add-to-list 'load-path "~/.emacs.d/elpa/auto-complete-1.4")
-(add-to-list 'load-path "~/.emacs.d/elpa/popup-0.5")
-(require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "~/.emacs.d//ac-dict")
-(ac-config-default)
-
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
