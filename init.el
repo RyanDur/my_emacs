@@ -4,8 +4,8 @@
 (add-to-list 'load-path "~/.emacs.d/magit")
 (add-to-list 'load-path "~/.emacs.d/ruby-electric")
 (require 'ruby-electric)
-;(add-to-list 'load-path "~/.emacs.d/Enhanced-Ruby-Mode")
-;(setq enh-ruby-program "/usr/local/Cellar/ruby/1.9.3-p327/bin/ruby")
+                                        ;(add-to-list 'load-path "~/.emacs.d/Enhanced-Ruby-Mode")
+                                        ;(setq enh-ruby-program "/usr/local/Cellar/ruby/1.9.3-p327/bin/ruby")
 (load "~/.emacs.d/nxhtml/autostart.el")
 (setq
  nxhtml-global-minor-mode t
@@ -28,8 +28,28 @@
  '(mumamo-border-face-in ((t (:foreground "green" :underline t :slant italic :weight bold))))
  '(mumamo-border-face-out ((t (:foreground "green" :underline t :slant italic :weight bold)))))
 
-;(require 'ruby-mode)
+                                        ;(require 'ruby-mode)
 (require 'magit)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Author: David Röthlisberger
+;; Title: technomancy / emacs-starter-kit
+;; From: https://github.com/technomancy/emacs-starter-kit/blob/v2/starter-kit-defuns.el
+(defun esk-untabify-buffer ()
+  (interactive)
+  (untabify (point-min) (point-max)))
+
+(defun esk-indent-buffer ()
+  (interactive)
+  (indent-region (point-min) (point-max)))
+
+(defun esk-cleanup-buffer ()
+  "Perform a bunch of operations on the whitespace content of a buffer."
+  (interactive)
+  (esk-indent-buffer)
+  (esk-untabify-buffer)
+  (delete-trailing-whitespace))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -127,7 +147,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Author: djcb
 ;; Title: init.el
@@ -221,21 +240,11 @@
 (add-to-list 'load-path "~/.emacs.d/rinari")
 (require 'rinari)
 (add-to-list 'load-path "~/.emacs.d/rhtml")
-;(require 'rhtml-mode)
+                                        ;(require 'rhtml-mode)
                                         ;(add-hook 'rhtml-mode-hook
                                         ;          (lambda () (rinari-launch)))
 (add-hook 'nxhtml-mode-hook
           (lambda () (rinari-launch)))
-
-(defface erb-face
-  `((t (:background "grey18")))
-  "Default inherited face for ERB tag body"
-  :group 'rhtml-faces)
-
-(defface erb-delim-face
-  `((t (:background "grey15")))
-  "Default inherited face for ERB tag delimeters"
-  :group 'rhtml-faces)
 
 (add-to-list 'load-path "~/.emacs.d/yaml-mode")
 (require 'yaml-mode)
@@ -246,6 +255,8 @@
 (add-to-list 'load-path "~/.emacs.d/dired-plus")
 (require 'dired+)
 
+(add-to-list 'load-path "~/.emacs.d/smarttabs")
+(require 'smart-tabs-mode)
 (autoload 'smart-tabs-mode-enable "smart-tabs-mode")
 (autoload 'smart-tabs-advice "smart-tabs-mode")
 
