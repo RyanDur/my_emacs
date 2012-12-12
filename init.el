@@ -2,7 +2,36 @@
 (add-to-list 'load-path "~/.emacs.d/inf-ruby")
 (add-to-list 'load-path "~/.emacs.d/jump.el")
 (add-to-list 'load-path "~/.emacs.d/magit")
+(add-to-list 'load-path "~/.emacs.d/ruby-electric")
+(require 'ruby-electric)
+;(add-to-list 'load-path "~/.emacs.d/Enhanced-Ruby-Mode")
+;(setq enh-ruby-program "/usr/local/Cellar/ruby/1.9.3-p327/bin/ruby")
+(load "~/.emacs.d/nxhtml/autostart.el")
+(setq
+ nxhtml-global-minor-mode t
+ mumamo-chunk-coloring 'submode-colored
+ nxhtml-skip-welcome t
+ indent-region-mode t
+ rng-nxml-auto-validate-flag nil
+ nxml-degraded t)
+(add-to-list 'auto-mode-alist '("\\.html\\.erb$" . eruby-nxhtml-mumamo-mode))
+(add-to-list 'auto-mode-alist '("\\.rhtml$" . eruby-html-mumamo-mode))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(hl-line ((t nil)))
+ '(mumamo-background-chunk-major ((t nil)))
+ '(mumamo-background-chunk-submode ((((class color) (min-colors 88) (background dark)) nil)) t)
+ '(mumamo-background-chunk-submode1 ((t nil)))
+ '(mumamo-border-face-in ((t (:foreground "green" :underline t :slant italic :weight bold))))
+ '(mumamo-border-face-out ((t (:foreground "green" :underline t :slant italic :weight bold)))))
+
+;(require 'ruby-mode)
 (require 'magit)
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Author:
 ;; Title:
@@ -162,6 +191,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
+(add-to-list 'load-path "~/.emacs.d/rcodetools")
+(require 'rcodetools)
+
+
 (add-to-list 'load-path "~/.emacs.d/popup-el")
 (add-to-list 'load-path "~/.emacs.d/auto-complete")
 (require 'auto-complete-config)
@@ -188,8 +221,10 @@
 (add-to-list 'load-path "~/.emacs.d/rinari")
 (require 'rinari)
 (add-to-list 'load-path "~/.emacs.d/rhtml")
-(require 'rhtml-mode)
-(add-hook 'rhtml-mode-hook
+;(require 'rhtml-mode)
+                                        ;(add-hook 'rhtml-mode-hook
+                                        ;          (lambda () (rinari-launch)))
+(add-hook 'nxhtml-mode-hook
           (lambda () (rinari-launch)))
 
 (defface erb-face
@@ -216,6 +251,7 @@
 
 (add-to-list 'load-path "~/.emacs.d/zencoding")
 (require 'zencoding-mode)
+(add-hook 'nxhtml-mode-hook (lambda () (zencoding-mode 1)))
 (add-hook 'html-mode-hook (lambda () (zencoding-mode 1)))
 (add-hook 'sgml-mode-hook (lambda () (zencoding-mode 1)))
 
@@ -248,9 +284,3 @@
  '(custom-safe-themes (quote ("71efabb175ea1cf5c9768f10dad62bb2606f41d110152f4ace675325d28df8bd" "71b172ea4aad108801421cc5251edb6c792f3adbaecfa1c52e94e3d99634dee7" default)))
  '(ecb-options-version "2.40")
  '(ecb-source-file-regexps (quote ((".*" ("\\(^\\(\\.\\|#\\)\\|\\(~$\\|\\.\\(elc\\|obj\\|o\\|class\\|lib\\|dll\\|a\\|so\\|cache\\)$\\)\\)") ("^\\.\\(emacs\\|gnus\\)$"))))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(hl-line ((t nil))))

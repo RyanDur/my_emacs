@@ -52,3 +52,15 @@
 [submodule "magit"]
 	path = magit
 	url = https://github.com/magit/magit.git
+[submodule "Enhanced-Ruby-Mode"]
+	path = Enhanced-Ruby-Mode
+	url = https://github.com/jacott/Enhanced-Ruby-Mode.git
+[submodule "rcodetools"]
+	path = rcodetools
+	url = https://github.com/tnoda/rcodetools.git
+[submodule "nxhtml"]
+	path = nxhtml
+	url = https://github.com/emacsmirror/nxhtml.git
+[submodule "ruby-electric"]
+	path = ruby-electric
+	url = https://github.com/qoobaa/ruby-electric.git
