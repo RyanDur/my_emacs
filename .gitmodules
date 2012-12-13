@@ -73,3 +73,6 @@
 [submodule "scss-mode"]
 	path = scss-mode
 	url = https://github.com/antonj/scss-mode.git
+[submodule "ruby-end"]
+	path = ruby-end
+	url = https://github.com/rejeep/ruby-end.git
