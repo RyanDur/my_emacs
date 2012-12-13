@@ -64,3 +64,12 @@
 [submodule "ruby-electric"]
 	path = ruby-electric
 	url = https://github.com/qoobaa/ruby-electric.git
+[submodule "rspec-mode"]
+	path = rspec-mode
+	url = https://github.com/pezra/rspec-mode.git
+[submodule "smex"]
+	path = smex
+	url = https://github.com/nonsequitur/smex.git
+[submodule "scss-mode"]
+	path = scss-mode
+	url = https://github.com/antonj/scss-mode.git
