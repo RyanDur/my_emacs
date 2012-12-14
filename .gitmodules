@@ -76,3 +76,6 @@
 [submodule "ruby-end"]
 	path = ruby-end
 	url = https://github.com/rejeep/ruby-end.git
+[submodule "company"]
+	path = company
+	url = https://github.com/jtatarik/company.git
