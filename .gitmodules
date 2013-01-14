@@ -79,3 +79,6 @@
 [submodule "company"]
 	path = company
 	url = https://github.com/jtatarik/company.git
+[submodule "/Users/Thoughtworks/.emacs.d/elisp/feature-mode"]
+	path = /Users/Thoughtworks/.emacs.d/elisp/feature-mode
+	url = https://github.com/michaelklishin/cucumber.el.git
